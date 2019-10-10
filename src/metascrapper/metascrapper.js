@@ -1,18 +1,13 @@
-// need image, title and description
-
 const metascraper = require('metascraper')([
     require('metascraper-description')(),
     require('metascraper-image')(),
     require('metascraper-title')(),
 ])
 
-// const got = require('got')
 const axios = require('axios')
 const Qs = require('qs')
 const proxyURL = 'https://proxy.hackeryou.com';
 
-
-// const targetUrl = 'https://genevievefiles.blogspot.com/2019/10/what-to-do-what-to-do-privacy-morality.html'; 
 
 export const metascrape = async ({url: link}) => {
     try {
