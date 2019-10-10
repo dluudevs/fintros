@@ -33,4 +33,4 @@ export const metascrape = async () => {
 
     const metadata = await metascraper({ html, url })
     console.log(metadata)
-})
+}

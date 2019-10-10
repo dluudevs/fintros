@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../metascrapper/metascrapper'
+import { metascrape } from '../metascrapper/metascrapper'
 
 const Articles = () => {
 
@@ -23,7 +23,7 @@ const Articles = () => {
 
     useEffect(() => {
         getArticles();
-        // metascrap('https://medium.com/@hubret/basic-metascraper-for-lists-of-urls-aa8f8636f344')
+        metascrape('https://medium.com/@hubret/basic-metascraper-for-lists-of-urls-aa8f8636f344')
     }, []) //without this argument, useEffect would call getArticles every time setArticles is called
 
 
