@@ -8,26 +8,29 @@ const axios = require('axios')
 const Qs = require('qs')
 const proxyURL = 'https://proxy.hackeryou.com';
 
-export const metascrape = async ({url}) => {
-    if(url){
-        // console.log(url)
-        try {
-            const response = await axios({
-                url: proxyURL,
-                method: 'GET',
-                paramsSerializer: function (params) {
-                    return Qs.stringify(params, { arrayFormat: 'brackets' });
-                },
-                params: {
-                    reqUrl: url,
-                }
-            })
 
-            const html = response.data
-            const url = response.config.params.reqUrl
-
-            const metadata = metascraper({ html, url })
+export const metascrape = async ({url: link}) => {
+    try {
+        const response = await axios({
+            url: proxyURL,
+            method: 'GET',
+            paramsSerializer: function (params) {
+                return Qs.stringify(params, { arrayFormat: 'brackets' });
+            },
+            params: {
+                reqUrl: link,
+            }
+        })
+        
+        const html  = response.data
+        const url = response.config.params.reqUrl 
+    
+        const metadata = await metascraper({ html, url })
+        if(metadata.description && metadata.image && metadata.title){
             console.log(metadata)
-        } catch (e) {}
+            return metadata;
+        }
+    } catch (err) {
+        // console.log(err)
     }
 }
