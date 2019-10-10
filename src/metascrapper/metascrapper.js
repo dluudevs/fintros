@@ -27,7 +27,7 @@ export const metascrape = async ({url: link}) => {
     
         const metadata = await metascraper({ html, url })
         if(metadata.description && metadata.image && metadata.title){
-            console.log(metadata)
+            // console.log(metadata)
             return metadata;
         }
     } catch (err) {

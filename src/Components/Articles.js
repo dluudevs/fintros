@@ -3,37 +3,34 @@ import {metascrape} from '../metascrapper/metascrapper';
 
 const Articles = () => {
 
-    const [articles, setArticles] = useState([]);
+    const [meta, setMeta] = useState([]);
 
-    const getArticleMeta = async (articles) => {
-        const metaPromise = articles.map(art => art && metascrape(art)); //if object, pass to metascrape.
-        Promise.all(metaPromise).then((meta) => {
-            const metaData = meta.filter(m => m && m) //can't filter undefined/null in metascrape function
-            setArticles(metaData);
-        })
+    const getArticleMeta = async (article) => {
+        if (article) { //if object, pass to metascrape
+            const meta = await metascrape(article); 
+            if (meta){
+                setMeta(oldMeta => [...oldMeta, meta])
+            }
+        }
     }
 
     const getArticles = async () => {
-        const promiseId = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty');
-        const articleIds = await promiseId.json();
+        const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty')
+            .then(id => id.json());
+        // const articleIds = await promiseId.json();
 
-        const promiseArticles = articleIds.map(id => {
+        articleIds.forEach(id => {
             return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
                 .then(res => res.json())
+                .then(article => getArticleMeta(article))
         });
-
-        const articleData = await Promise.all(promiseArticles);
-
-        getArticleMeta(articleData)
-        
     }
-
-
+    
     useEffect(() => {
+
         getArticles();
-    }, []) //without this argument, useEffect would call getArticles every time setArticles is called
 
-
+    }, []) //without this argument, useEffect would call getArticles every time setMeta is called
 
     // have a filter that is always removing the first 30 from the results
         // this should work because the rendered components will already have their data and rendered 
@@ -43,7 +40,7 @@ const Articles = () => {
     return (
         <div>
             {
-                articles.length ? articles.map(art => (
+                meta.length ? meta.map(art => (
                     <div>
                         <p>{art.title}</p>
                         <p>{art.description}</p>
