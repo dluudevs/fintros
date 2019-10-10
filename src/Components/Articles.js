@@ -1,29 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import '../metascrapper/metascrapper'
+import {metascrape} from '../metascrapper/metascrapper';
 
 const Articles = () => {
 
     const [articles, setArticles] = useState([]);
 
-    const getArticles = () => {
-        fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty')
-            .then(response => response.json())
-            .then(artId => {
-                artId.forEach(id => {
-                    fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
-                    .then(res => res.json())
-                    .then(art => {
-                        if(art){
-                            setArticles(prevArticles => [...prevArticles, art.url])
-                        }
-                    })
-                })
-            })
+    const getArticleMeta = async (articles) => {
+        const metaPromise = articles.map(art => art && metascrape(art)); //if object, pass to metascrape.
+        Promise.all(metaPromise).then((meta) => {
+            const metaData = meta.filter(m => m && m) //can't filter undefined/null in metascrape function
+            setArticles(metaData);
+        })
     }
+
+    const getArticles = async () => {
+        const promiseId = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty');
+        const articleIds = await promiseId.json();
+
+        const promiseArticles = articleIds.map(id => {
+            return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
+                .then(res => res.json())
+        });
+
+        const articleData = await Promise.all(promiseArticles);
+
+        getArticleMeta(articleData)
+        
+    }
+
 
     useEffect(() => {
         getArticles();
-        // metascrap('https://medium.com/@hubret/basic-metascraper-for-lists-of-urls-aa8f8636f344')
     }, []) //without this argument, useEffect would call getArticles every time setArticles is called
 
 
@@ -36,9 +43,15 @@ const Articles = () => {
     return (
         <div>
             {
-                articles.map(url => (
-                    <p>{url}</p>
+                articles.length ? articles.map(art => (
+                    <div>
+                        <p>{art.title}</p>
+                        <p>{art.description}</p>
+                        <img src={`${art.image}`} alt=""/>
+                    </div>
                 ))
+                :
+                <p>Loading ... </p>
             }
             <h2>Articles</h2>
         </div>
