@@ -4,6 +4,7 @@ import { metascrape } from '../metascrapper/metascrapper';
 const Articles = () => {
 
     const [meta, setMeta] = useState([]);
+    const [artId, setArtId] = useState([])
 
     const showArticles = (articles) => {
 
@@ -24,35 +25,49 @@ const Articles = () => {
         return results;
     }
 
-    const getArticleMeta = async (article) => {
+    const getArticleMeta = async (articles) => {
 
-        // get 40 article ids
-        // scrape all
-        // show 30
+        const results = [];
+        let index = 0; //
         
-        
-        if (article) { //if object, pass to metascrape
-            const meta = await metascrape(article);
-            if (meta) {
-                const url = article.url
-                const title = article.title
-                const id = article.id
-                setMeta(oldMeta => [...oldMeta, {...meta, title, id, url}])
+        const fetchArticles = (id) => {
+            return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
+                        .then(res => res.json())
+                        .then(article => {
+                            scrapeMeta(article)
+                            index++ //index must be incremented here to keep pulling items from array
+                        })
+        }
+
+        const scrapeMeta = async (article) => {
+            if (article) { //if object, pass to metascrape
+                const meta = await metascrape(article);
+                if (meta) {
+                    const url = article.url
+                    const title = article.title
+                    const id = article.id
+                    results.push({...meta, url, title, id}) //loop ends when there are 30 items
+                }
             }
         }
+
+        while(results.length < 30){ //
+            await fetchArticles(articles[index]) //wait for loop to complete 
+        }
+
+        setMeta(results);
+
     }
 
     const getArticles = async () => {
+
         const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty') //await for results array before iterating
-            .then(id => id.json());
+            .then(id => id.json())
 
-        articleIds.forEach(id => {
-            return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
-                .then(res => res.json())
-                .then(article => getArticleMeta(article)) //once each promise is resolved, pass each result to getArticleMeta
-        });
+        setArtId(articleIds);
+        getArticleMeta(articleIds);
     }
-
+    
     useEffect(() => {
 
         getArticles();
@@ -63,7 +78,7 @@ const Articles = () => {
         <section className="wrapper">
             <div className="d-flex article_container">
                 {
-                    meta.length > 30 ? showArticles(meta) : <p>Fetching Articles ... </p>
+                    meta.length ? showArticles(meta) : <p>Fetching Articles ... </p>
                 }
             </div>
         </section>
