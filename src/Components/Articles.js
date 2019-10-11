@@ -63,8 +63,7 @@ const Articles = () => {
     useEffect(() => {
         const getArticles = async () => {
     
-            //await array of articleIds before searching for article
-            const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty') 
+            const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty') //await for results array before iterating
                 .then(id => id.json())
     
             setArtId(articleIds);
