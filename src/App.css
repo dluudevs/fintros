@@ -33,7 +33,6 @@ img {
   display: block;
 }
 
-
 .hover:hover {
   cursor: pointer;
   color: rgba(39,44,47,.4);
@@ -95,12 +94,19 @@ nav {
 
 .nav_bar {
   display: flex;
-  justify-content: space-between;
-  width: 27%;
+  justify-content: flex-end;
+  align-items: center;
+  width: 40%;
+}
+
+.nav_bar .hover {
+  margin-right: 1rem;
 }
 
 .header_logo {
   width: 22.5%;
+  display: flex;
+  align-items: center;
 }
 
 .logo_container {
