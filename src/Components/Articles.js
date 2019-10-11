@@ -51,10 +51,11 @@ const Articles = () => {
             }
         }
 
-        while(results.length < 30){ //
+        while(results.length < 30){ 
             await fetchArticles(articles[index]) //wait for loop to complete 
         }
 
+        setArtId(oldId => oldId.slice(0, index)) //remove items that were search from articleId
         setMeta(results);
 
     }
