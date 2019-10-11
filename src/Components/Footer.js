@@ -57,13 +57,13 @@ const Footer = () => (
                         <li>
                             <a href="#">
                                 <span className="sr-only">Link to Apple Store</span>
-                                <i class="fab fa-apple"></i>
+                                <i className="fab fa-apple"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span className="sr-only">Link to Google Play Store</span>
-                                <i class="fab fa-android"></i>
+                                <i className="fab fa-android"></i>
                             </a>
                         </li>
                     </ul>
@@ -123,19 +123,19 @@ const Footer = () => (
                         <li>
                             <a href="#">
                                 <span className="sr-only">Link to Facebook</span>
-                                <i class="sm-icon fab fa-facebook-f"></i>
+                                <i className="sm-icon fab fa-facebook-f"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span className="sr-only">Link to Twitter</span>
-                                <i class="sm-icon fab fa-twitter"></i>
+                                <i className="sm-icon fab fa-twitter"></i>
                             </a>
                         </li>
                         <li>
                             <a href="#">
                                 <span className="sr-only"></span>
-                                <i class="sm-icon fab fa-instagram"></i>
+                                <i className="sm-icon fab fa-instagram"></i>
                             </a>
                         </li>
                     </ul>
@@ -145,9 +145,9 @@ const Footer = () => (
 
         <div className="footer_section footer_bottom">
             <div className="wrapper_small">
-                <a href="#" class="bottom_link">Wealthsimple for Advisors</a>
+                <a href="#" className="bottom_link">Wealthsimple for Advisors</a>
                 <span className="dot">&#8226;</span>
-                <a href="#" class="bottom_link">Wealthsimple for Work</a>
+                <a href="#" className="bottom_link">Wealthsimple for Work</a>
             </div>
             <div className="wrapper copyright">
                     <p>Wealthsimple Inc. is a registered Portfolio Manager in Canada. Securities in your account are protected up to $1,000,000 CDN through the brokages we are, which are Virtual Brokers, Division of BBS Services Inc. and Canadian ShareOwner Invesments Inc. See www.cipf.ca for more details. By using this website, you accept our Terms of Use and Privacy Policy. Copyright 2016 WealthSimple Inc.</p>

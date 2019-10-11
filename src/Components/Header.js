@@ -6,7 +6,7 @@ const Header = () => ((
         <nav>
             <div className="nav_wrapper wrapper_small">
                 <a href="#" className="header_logo">
-                    <img src={logo} alt="wealthsimple logo"/>
+                    <img src={logo} alt="wealthsimple brand"/>
                 </a>
                 <ul className="nav_bar">
                     <li className="hover">Magazine</li>
@@ -24,7 +24,7 @@ const Header = () => ((
             <h3 className="hero_subtitle news font_grey">Stories and ideas from WealthSimple</h3>
         </div>
         <div className="wrapper hero_image">
-            <img src="https://wealthsimple-grow.ghost.io/content/images/2019/10/van_final_color--1--1.jpg" alt="feature magazine post image"/>
+            <img src="https://wealthsimple-grow.ghost.io/content/images/2019/10/van_final_color--1--1.jpg" alt="feature magazine post"/>
             <div className="featured-post article__text_container">
                 <h4 className="news font_grey">News</h4>
                 <h3 className="title"><a href='#'>WealthSimple Trade is Here - Meet Canada's $0 Commission Stock Trading App</a></h3>

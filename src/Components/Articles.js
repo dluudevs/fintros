@@ -16,7 +16,7 @@ const Articles = () => {
                     </div>
                     <div className="article__text_container">
                         <h4 className="news font_grey">News</h4>
-                        <h3 className="title"><a href={url}>{title}</a></h3>
+                        <h3 className="title"><a target="_blank" href={url}>{title}</a></h3>
                         <p className="description">{description}</p>
                     </div>
                 </div>
