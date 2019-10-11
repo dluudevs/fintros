@@ -3,7 +3,31 @@ import {metascrape} from '../metascrapper/metascrapper';
 
 const Articles = () => {
 
+    // get IDs
+        // set to state
+
+    // once IDs are in        
+        // get URLs
+        // metascrape
+            // add a counter for each "tested" result
+
+    // append
+
     const [meta, setMeta] = useState([]);
+
+    const showArticles = (articles) => {
+        const results = articles.map(({description, title, image}) => {
+            return (
+                <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <img src={`${image}`} alt={`Image for ${title} article`} />
+                </div>
+            )
+        });
+
+        return results;
+    }   
 
     const getArticleMeta = async (article) => {
         if (article) { //if object, pass to metascrape
@@ -15,14 +39,13 @@ const Articles = () => {
     }
 
     const getArticles = async () => {
-        const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty')
+        const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty') //await for results array before iterating
             .then(id => id.json());
-        // const articleIds = await promiseId.json();
 
         articleIds.forEach(id => {
             return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
                 .then(res => res.json())
-                .then(article => getArticleMeta(article))
+                .then(article => getArticleMeta(article)) //once each promise is resolved, pass each result to getArticleMeta
         });
     }
     
@@ -32,25 +55,12 @@ const Articles = () => {
 
     }, []) //without this argument, useEffect would call getArticles every time setMeta is called
 
-    // have a filter that is always removing the first 30 from the results
-        // this should work because the rendered components will already have their data and rendered 
-    // have the rendering map method only display 30
-
-    // unless this is just a trick (dom manipulation) to hide information that is already available
     return (
         <div>
-            {
-                meta.length ? meta.map(art => (
-                    <div>
-                        <p>{art.title}</p>
-                        <p>{art.description}</p>
-                        <img src={`${art.image}`} alt=""/>
-                    </div>
-                ))
-                :
-                <p>Loading ... </p>
-            }
             <h2>Articles</h2>
+            {
+                meta.length ? showArticles(meta) : <p>Loading ... </p>
+            }
         </div>
     )
 }
