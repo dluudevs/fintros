@@ -8,11 +8,9 @@ const Articles = () => {
 
     const showArticles = (articles) => {
 
-        const meta = articles.slice(0, 30)
         console.log(articles)
-        console.log(meta)
         
-        const results = meta.map(({ description, title, image, id, url }, index) => {
+        const results = articles.map(({ description, title, image, id, url }, index) => {
             return (
                 <div key={id} data-id={index} className="article">
                     <div className="article__img_container">
@@ -55,7 +53,7 @@ const Articles = () => {
             }
         }
 
-        while(results.length < 30){ 
+        while(results.length < 29){ 
             await fetchArticles(articles[index]); //wait for loop to complete 
         }
 
