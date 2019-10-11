@@ -8,7 +8,6 @@ ul{padding:0;list-style:none}
 a{text-decoration:none;color:inherit;}
 
 /* UNIVERSALS */
-
 html, #root {
   font-family: 'Noto sans', sans-serif;
 }
@@ -75,7 +74,6 @@ img {
 }
 
 /* HEADER */
-
 header {
   margin-bottom: 7rem;
 }
@@ -144,7 +142,6 @@ nav {
 .loading {
   font-weight: 600;
   text-align: center;
-  /* margin-top: -3.5rem; */
   margin-bottom: 7rem;
   width: 100%;
 }
