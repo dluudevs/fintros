@@ -206,7 +206,7 @@ footer a:hover {
 }
 
 .footer_section li:not(:last-child){
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
 }
 
 .about_us {
