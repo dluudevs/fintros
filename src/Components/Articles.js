@@ -1,39 +1,43 @@
 import React, { useEffect, useState } from 'react';
-import {metascrape} from '../metascrapper/metascrapper';
+import { metascrape } from '../metascrapper/metascrapper';
 
 const Articles = () => {
-
-    // get IDs
-        // set to state
-
-    // once IDs are in        
-        // get URLs
-        // metascrape
-            // add a counter for each "tested" result
-
-    // append
 
     const [meta, setMeta] = useState([]);
 
     const showArticles = (articles) => {
-        const results = articles.map(({description, title, image}) => {
+
+        const results = articles.map(({ description, title, image, id, url }) => {
             return (
-                <div>
-                    <h3>{title}</h3>
-                    <p>{description}</p>
-                    <img src={`${image}`} alt={`Image for ${title} article`} />
+                <div key={id} data-id={id} className="article">
+                    <div className="article__img_container">
+                        <img src={`${image}`} alt={`Image for ${title} article`} />
+                    </div>
+                    <div class="article__text_container">
+                        <h4 className="news">News</h4>
+                        <h3 className="title"><a href={url}>{title}</a></h3>
+                        <p className="description">{description}</p>
+                    </div>
                 </div>
             )
         });
-
         return results;
-    }   
+    }
 
     const getArticleMeta = async (article) => {
+
+        // get 40 article ids
+        // scrape all
+        // show 30
+        
+        
         if (article) { //if object, pass to metascrape
-            const meta = await metascrape(article); 
-            if (meta){
-                setMeta(oldMeta => [...oldMeta, meta])
+            const meta = await metascrape(article);
+            if (meta) {
+                const url = article.url
+                const title = article.title
+                const id = article.id
+                setMeta(oldMeta => [...oldMeta, {...meta, title, id, url}])
             }
         }
     }
@@ -48,20 +52,21 @@ const Articles = () => {
                 .then(article => getArticleMeta(article)) //once each promise is resolved, pass each result to getArticleMeta
         });
     }
-    
+
     useEffect(() => {
 
         getArticles();
 
-    }, []) //without this argument, useEffect would call getArticles every time setMeta is called
+    }, [])
 
     return (
-        <div>
-            <h2>Articles</h2>
-            {
-                meta.length ? showArticles(meta) : <p>Loading ... </p>
-            }
-        </div>
+        <section className="wrapper">
+            <div className="d-flex article_container">
+                {
+                    meta.length > 30 ? showArticles(meta) : <p>Fetching Articles ... </p>
+                }
+            </div>
+        </section>
     )
 }
 
