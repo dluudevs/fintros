@@ -23,24 +23,30 @@ body {
   margin: 0 auto;
 }
 
+.wrapper_small {
+  width: 75%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
 img {
   width: 100%;
   display: block;
 }
 
-.d-flex {
-  display: flex;
-}
 
 .hover:hover {
   cursor: pointer;
   color: rgba(39,44,47,.4);
 }
 
+.font_grey {
+  color: rgba(39,44,47,.4);
+}
+
 .news {
   margin-bottom: 0.8rem;
   text-transform: uppercase;
-  color: rgba(39,44,47,.4);
 }
 
 .title{
@@ -83,11 +89,8 @@ nav {
 }
 
 .nav_wrapper {
-  width: 75%;
-  max-width: 1000px;
-  margin: 0 auto;
   padding-top: 1.75rem;
-  padding-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
   display: flex;
   justify-content: space-between;
 }
@@ -103,7 +106,7 @@ nav {
 }
 
 .logo_container {
-  width: 17%;
+  width: 15%;
   display: inline-block;
 }
 
@@ -115,10 +118,13 @@ nav {
 
 .hero_title {
   font-size: 3.75rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: -3.5px;
+  line-height: 1;
 }
 
 .hero_subtitle {
+  font-size: 1rem;
   letter-spacing: 2px;
 }
 
@@ -135,17 +141,24 @@ nav {
 }
 
 /* ARTICLE */
+.loading {
+  font-weight: 600;
+  text-align: center;
+  /* margin-top: -3.5rem; */
+  margin-bottom: 7rem;
+  width: 100%;
+}
+
 .article_container {
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: space-between;
+  align-items: center;
 }
 
 .article {
   width: 49%;
   display: inline-block;
   margin-bottom: 2%;
-  height: min-content;
 }
 
 .article__img_container {
@@ -158,9 +171,125 @@ nav {
 }
 
 .article__text_container {
-  padding: 1.75rem 1.5rem;
+  padding: 1.75rem 1.6rem;
   background-color: white;
 }
 
+/* FOOTER */
+.dot {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 
+footer {
+  background: #222;
+  color: #fff;
+}
+
+footer a:hover {
+  opacity: 0.4;
+}
+
+.about_us, .questions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer_section{
+  border-bottom: 1px solid black;
+}
+
+.footer_section h4{
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.footer_section li:not(:last-child){
+  margin-bottom: 0.4rem;
+}
+
+.about_us {
+  padding-bottom: 4rem;
+  padding-top: 5.5rem;
+}
+
+.about_us__item, .questions__item {
+  flex: 0 1 170px;
+}
+
+.footer_icons__container {
+  display: flex;
+  font-size: 1.8rem;
+}
+
+.footer_icons__container li:first-child {
+  margin-right: 0.5rem;
+}
+
+.questions {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
+
+.country-link {
+  opacity: 0.4;
+}
+
+.country-link:hover {
+  opacity: 1;
+}
+
+.country img {
+  width: 30px;
+  height: 25px;
+  object-fit: fill;
+}
+
+.country--active{
+  opacity: 1;
+}
+
+.country--active:hover{
+  cursor: default;
+  opacity: 1;
+}
+
+.country-us{
+  margin-left: 0.3rem;
+  margin-right: 0.3rem;
+}
+
+.country_container {
+  display: flex;
+}
+
+.sm_container {
+  display: flex;
+  font-size: 1.2rem;
+}
+
+.fa-twitter{
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
+.footer_bottom {
+  padding-top: 3rem;
+  padding-bottom: 6rem;
+}
+
+.copyright {
+  margin-top: 1rem;
+}
+
+.footer_bottom p {
+  font-size: 0.7rem;
+  opacity: 0.4;
+  line-height: 2;
+}
+
+.footer_bottom p:first-child {
+  margin-bottom: 0.5rem;
+}
 
