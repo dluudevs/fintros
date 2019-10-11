@@ -76,7 +76,7 @@ const Articles = () => {
 
     return (
         <section className="wrapper">
-            <div className="d-flex article_container">
+            <div className="article_container">
                 {
                     meta.length ? showArticles(meta) : 
                     (
