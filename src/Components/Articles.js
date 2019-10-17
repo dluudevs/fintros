@@ -6,6 +6,15 @@ const Articles = () => {
 
     const [meta, setMeta] = useState([]);
     const [artId, setArtId] = useState([]);
+    const [limit, setLimit] = useState(30)
+
+    // get all the meta data, store it in state.
+        // only store in state when all the meta data has returned
+    //in return call show articles only if meta data has items
+    // useeffect, only run show articles if the amount of items to be rendered changes
+
+    // **the data is expected to load really slowly.. cant think of another way to do this while limiting 30 items
+
 
     const loader = (
         <div className="loading font_grey">
@@ -15,7 +24,7 @@ const Articles = () => {
 
     const showArticles = (articles = meta) => {
 
-        const results = articles.map(({ description, title, image, id, url }, index) => {
+        const results = articles.splice(0, limit).map(({ description, title, image, id, url }, index) => {
             return (
                 <div key={id} data-id={index} className="article">
                     <div className="article__img_container">
@@ -32,50 +41,85 @@ const Articles = () => {
         return results;
     }
 
-    const getArticleMeta = async (articles = artId) => {
+    const getArticleMeta = async (ids = artId) => {
 
         console.log('getArticleMeta called')
-        
-        const results = [];
-        let index = 0; 
-        
-        const fetchArticles = (id) => {
-            return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
-                        .then(res => res.json())
-                        .then(article => {
-                            scrapeMeta(article);
-                            index++; //index must be incremented here to keep pulling items from array
-                        })
-        }
 
-        const scrapeMeta = async (article) => {
-            if (article) { //if object, pass to metascrape
-                const meta = await metascrape(article);
-                if (meta) {
-                    const url = article.url
-                    const title = article.title
-                    const id = article.id
-                    results.push({...meta, url, title, id}) //loop ends when there are 30 items
+        // const results = [];
+        // let index = 0;
+
+        const articleIds = ids.map(id => {
+            return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
+                .then(res => res.json())
+                .then(article => article != null && article)
+        })
+
+        const articles = await Promise.all(articleIds)
+
+        const meta = []
+        for(const a of articles){
+            if(a.url){
+                const metaData = await metascrape(a);
+
+                if(meta.length < 30){
+                    if (metaData) {
+                        const url = a.url
+                        const title = a.title
+                        const id = a.id
+
+                        meta.push({ ...metaData, url, title, id })
+                        console.log({ ...metaData, url, title, id })
+                    }
+                } else {
+                    break //exit loop when there are 30 items in the array
                 }
             }
         }
 
-        while(results.length < 30){ 
-            await fetchArticles(articles[index]); //wait for loop to complete 
-        }
+        console.log(meta)
 
-        setArtId(oldId => oldId.splice(index, oldId.length)) //remove items that were search from articleId
-        setMeta(oldMeta => [...oldMeta, ...results.splice(0, 30)]);
+        // why does the above work better than the below
+        // now have to keep track of the amount of items looped from articles, splice the ids and set it to state
+
+        // setMeta(meta)
+
+        // const fetchArticles = (id) => {
+        //     return fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json?&print=pretty`)
+        //         .then(res => res.json())
+        //         .then(article => {
+        //             scrapeMeta(article);
+        //             index++; //index must be incremented here to keep pulling items from array
+        //         })
+        // }
+
+        // const scrapeMeta = async (article) => {
+        //     if (article) { //if object, pass to metascrape
+        //         const meta = await metascrape(article);
+        //         if (meta) {
+        //             const url = article.url
+        //             const title = article.title
+        //             const id = article.id
+        //             setMeta(oldMeta => [...oldMeta, { ...meta, url, title, id }]) //loop ends when there are 30 items
+        //         }
+        //     }
+        // }
+
+        // while (results.length < 30) {
+        //     await fetchArticles(articles[index]); //wait for loop to complete 
+        // }
+
+        // setArtId(oldId => oldId.splice(index, oldId.length)) //remove items that were search from articleId
+        // setMeta(oldMeta => [...oldMeta, ...results.splice(0, 30)]);
 
     }
 
     useEffect(() => {
         const getArticles = async () => {
-    
+
             const articleIds = await fetch('https://hacker-news.firebaseio.com/v0/newstories.json?&print=pretty') //await for results array before iterating
                 .then(id => id.json())
-    
-            setArtId(articleIds);
+
+            // setArtId(articleIds);
             getArticleMeta(articleIds);
         }
 
@@ -89,17 +133,20 @@ const Articles = () => {
 
     useEffect(() => {
         console.log('meta updated')
+        console.log(meta)
     }, [meta])
 
     return (
         <section className="wrapper">
             <div className="article_container">
-                {meta.length > 0 ? showArticles() : loader}
+                
                 <button onClick={() => getArticleMeta()}>Load More</button>
             </div>
         </section>
     )
 }
+
+// { meta.length > 30 ? showArticles() : loader }
 
 export default Articles;
 
