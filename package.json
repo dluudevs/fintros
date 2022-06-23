@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.19.0",
-    "got": "^9.6.0",
+    "got": "^11.8.5",
     "metascraper": "^5.7.6",
     "metascraper-description": "^5.7.6",
     "metascraper-image": "^5.7.6",
